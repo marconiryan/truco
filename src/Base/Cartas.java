@@ -1,3 +1,5 @@
+package Base;
+
 public record Cartas(int naipe, int numero, int peso) {
     public Cartas(int naipe, int numero, int peso) {
         this.naipe = setNaipe(naipe);
@@ -16,7 +18,18 @@ public record Cartas(int naipe, int numero, int peso) {
         return Integer.compare(carta1.peso(), carta2.peso());
 
     }
-
+    public static String getNameSprite(Cartas carta){
+        String var = "/Sprites/"+ String.valueOf(carta.numero);
+        if(carta.naipe == 1)
+            var = var.concat("Espada.png");
+        else if (carta.naipe == 2)
+            var = var.concat("Pau.png");
+        else if (carta.naipe == 3)
+            var = var.concat("Ouro.png");
+        else if(carta.naipe == 4)
+            var = var.concat("Copo.png");
+        return var;
+    }
     private int setNumero(int numero) {
         if (numero <= 0 || numero >= 14) {
             throw new RuntimeException("Numero Inválido");

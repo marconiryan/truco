@@ -1,3 +1,5 @@
+package Base;
+
 public class Regras {
     private boolean truco, retruco, valequatro;
     private boolean envido, realenvido, faltaenvido;
