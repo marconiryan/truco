@@ -46,6 +46,18 @@ public class Baralho{
 
     }
 
+    public LinkedList<Cartas> getMesmoTipo(){
+        LinkedList<Cartas> mesmoTipo = new LinkedList<>();
+        for(Cartas carta1: this.baralho){
+            for(Cartas cartas2 : this.baralho){
+                if(!carta1.equals(cartas2) && carta1.naipe() == cartas2.naipe())
+                    mesmoTipo.add(carta1);
+            }
+        }
+
+        return mesmoTipo;
+    }
+
     private int setPesoTruco(int naipe, int numero){
         boolean espadao = naipe == 1 && numero == 1;
         boolean bastiao = naipe == 2 && numero == 1;

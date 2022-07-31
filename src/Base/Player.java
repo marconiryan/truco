@@ -69,7 +69,8 @@ public class Player {
         this.cartasPlayer = cartasPlayer;
     }
     public int getEnvido(){
-        int pontos = 20;
+        int pontos = 0;
+
         for(Cartas cartas: getCartasPlayer()){
             if(cartas.numero() < 10){
                 pontos += cartas.numero();

@@ -68,6 +68,7 @@ public class Game extends JPanel implements Runnable {
         playerEnemy.update(true);
         if(mouse.pressed)
             System.out.println("X:"+ mouse.posX +"|"+ "Y:"+ mouse.posY);
+        System.out.println(player.getEnvido());
 
     }
 

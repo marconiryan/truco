@@ -14,7 +14,7 @@ public record Cartas(int naipe, int numero, int peso) {
         }
         return naipe;
     }
-    public int isCartaMaior(Cartas carta1, Cartas carta2){
+    public static int isCartaMaior(Cartas carta1, Cartas carta2){
         return Integer.compare(carta1.peso(), carta2.peso());
 
     }
