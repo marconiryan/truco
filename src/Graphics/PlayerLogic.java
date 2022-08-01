@@ -52,13 +52,17 @@ public class PlayerLogic {
 
         if(first.size() < 2){ // Primeira Jogada
             if(inverse){
-                if(first.isEmpty())
+                if(first.isEmpty()){
                     playerEnemy.update(true, card, this.first, this.mid, this.last);
-                else
+                    enemy.setMao(true);
+                } else{
                     playerGraph.update(mouse, this.first, this.mid, this.last);
+                }
             }else {
-                if(first.isEmpty())
+                if(first.isEmpty()){
                     playerGraph.update(mouse, this.first, this.mid, this.last);
+                    player.setMao(true);
+                }
                 else
                     playerEnemy.update(true, card, this.first, this.mid, this.last);
             }

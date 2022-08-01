@@ -118,6 +118,7 @@ public class PlayerGraph {
 
         if(mouse.pressed){
             if(rangeCard1 && !(yCard1 == centerHScreen)){
+
                 this.yCard1 = centerHScreen;
                 if(yCard2 == centerHScreen || yCard3 == centerHScreen){
                     if(yCard3 == yCard2){
