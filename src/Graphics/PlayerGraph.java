@@ -55,8 +55,8 @@ public class PlayerGraph {
         int newCenterHScreen = centerHScreen - 75;
         int newCenterWScreen = centerWScreen - 20;
 
-        if(jogou && !(yCard1 == newCenterHScreen && yCard2 == newCenterHScreen && yCard3 == newCenterHScreen)){
-            if(card == 1){
+        if(jogou){
+            if(card == 1 && !(yCard1 == newCenterHScreen)){
                 this.yCard1 = newCenterHScreen;
                 if(yCard2 == newCenterHScreen || yCard3 == newCenterHScreen){
                     if(yCard3 == yCard2){
@@ -73,7 +73,7 @@ public class PlayerGraph {
                     first.add(basePlayer.getCartasPlayer().get(0));
                 }
             }
-            else if (card == 2){
+            else if (card == 2 && !(yCard2 == newCenterHScreen)){
                 yCard2 = newCenterHScreen;
                 if(yCard1 == newCenterHScreen || yCard3 == newCenterHScreen){
                     if(yCard3 == yCard1){
@@ -90,7 +90,7 @@ public class PlayerGraph {
                     first.add(basePlayer.getCartasPlayer().get(1));
                 }
             }
-            else if(card == 3){
+            else if(card == 3 && !(yCard3 == newCenterHScreen)){
                 yCard3 = newCenterHScreen;
                 if(yCard1 == newCenterHScreen || yCard2 == newCenterHScreen){
                     if(yCard1 == yCard2){
@@ -116,8 +116,8 @@ public class PlayerGraph {
         boolean rangeCard3 = mouse.posX >= xCard3 && mouse.posX <= xCard3+ width && mouse.posY >= yCard3 && mouse.posY <= yCard3 + height;
 
 
-        if(mouse.pressed && !(yCard1 == centerHScreen && yCard2 == centerHScreen && yCard3 == centerHScreen)){
-            if(rangeCard1){
+        if(mouse.pressed){
+            if(rangeCard1 && !(yCard1 == centerHScreen)){
                 this.yCard1 = centerHScreen;
                 if(yCard2 == centerHScreen || yCard3 == centerHScreen){
                     if(yCard3 == yCard2){
@@ -134,7 +134,7 @@ public class PlayerGraph {
                     first.add(basePlayer.getCartasPlayer().get(0));
                 }
             }
-            else if (rangeCard2){
+            else if (rangeCard2 && !(yCard2 == centerHScreen)){
                 yCard2 = centerHScreen;
                 if(yCard1 == centerHScreen || yCard3 == centerHScreen){
                     if(yCard3 == yCard1){
@@ -151,7 +151,7 @@ public class PlayerGraph {
                     first.add(basePlayer.getCartasPlayer().get(1));
                 }
             }
-            else if(rangeCard3){
+            else if(rangeCard3 && !(yCard3 == centerHScreen)){
                 yCard3 = centerHScreen;
                 if(yCard1 == centerHScreen || yCard2 == centerHScreen){
                     if(yCard1 == yCard2){
@@ -172,15 +172,12 @@ public class PlayerGraph {
     }
 
     private void drawCard(Graphics2D graphics2D, BufferedImage card,int cardX, int cardY,int w, int h){
-
         graphics2D.setColor(Color.white);
         graphics2D.fillRoundRect(cardX-6,cardY-6,w+12,h+12,15,15);
         graphics2D.setColor(Color.black);
         graphics2D.drawImage(card,cardX,cardY,w,h,null);
         graphics2D.drawRect(cardX,cardY,w,h);
         graphics2D.drawRoundRect(cardX-6,cardY-6,w+12,h+12,15,15);
-
-
     }
 
 }
