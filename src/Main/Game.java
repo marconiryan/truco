@@ -24,7 +24,7 @@ public class Game extends JPanel implements Runnable {
     PlayerLogic playerLogic;
     LinkedList<Cartas> first, mid, last;
     final int windowWidth = 1200, windowHeight = 700;
-    final double FPS = 60;
+    final double FPS = 100;
 
     // Load mesa
     {
@@ -66,6 +66,9 @@ public class Game extends JPanel implements Runnable {
         Graphics2D graphics2D = (Graphics2D) graph;
         graphics2D.drawImage(this.mesa,0,0,windowWidth,windowHeight,null);
         this.playerLogic.drawPlayers(graphics2D);
+        if(player.isWinRodada() || enemy.isWinRodada())
+            playerLogic.drawGanhador(graphics2D, player.isWinRodada());
+
         graphics2D.dispose();
 
 

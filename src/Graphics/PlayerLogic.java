@@ -3,8 +3,13 @@ package Graphics;
 import Base.Cartas;
 import Base.Player;
 import Main.Mouse;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class PlayerLogic {
 
@@ -29,6 +34,18 @@ public class PlayerLogic {
         playerEnemy.drawPlayerCard(graphics2D);
     }
 
+    public void drawGanhador(Graphics2D graphics2D, boolean p1){
+        BufferedImage image;
+        try {
+            if(p1)
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/player1Win.png")));
+            else
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/player2Win.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        graphics2D.drawImage(image,0,0,1200,700,null);
+    }
     public void update(Mouse mouse, int card, boolean inverse){
         if ((enemy.isWin1())) {
             System.out.println("Inimigo Ganhou 1");
