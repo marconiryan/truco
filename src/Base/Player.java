@@ -6,7 +6,6 @@ public class Player {
     private LinkedList<Cartas> cartasPlayer;
     private boolean decisao, winRodada, mao;
     private boolean win1, win2, win3;
-    private int somaRodada = 0;
     private int pontosPartida = 0;
 
 
@@ -17,12 +16,6 @@ public class Player {
 
     }
 
-
-
-    public Player(LinkedList<Cartas> cartasPlayer) {
-        this.cartasPlayer = cartasPlayer;
-        resetPlayer();
-    }
 
     public int getPontosPartida() {
         return pontosPartida;
@@ -45,21 +38,12 @@ public class Player {
     }
 
     public void resetPlayer(){
-        setSomaRodada(0);
 
     }
 
     public void setWinRodada() {
         this.winRodada = true;
 
-    }
-
-    public int getSomaRodada() {
-        return somaRodada;
-    }
-
-    public void setSomaRodada(int somaRodada) {
-        this.somaRodada = somaRodada;
     }
 
     public boolean isDecisao() {
