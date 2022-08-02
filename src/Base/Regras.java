@@ -1,8 +1,14 @@
 package Base;
 
-public class Regras {
+import Graphics.PlayerLogic;
+
+public class Regras extends PlayerLogic {
     private boolean truco, retruco, valequatro;
     private boolean envido, realenvido, faltaenvido;
+
+    public Regras(Player player, Player enemy, int windowWidth) {
+        super(player, enemy, windowWidth);
+    }
 
     public boolean isTruco() {
         return truco;
