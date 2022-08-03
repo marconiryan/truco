@@ -2,6 +2,7 @@ package Main;
 import Base.Baralho;
 import Base.Cartas;
 import Base.Player;
+import Base.Pontos;
 import Graphics.*;
 
 import javax.imageio.ImageIO;
@@ -21,9 +22,11 @@ public class Game extends JPanel implements Runnable {
     BufferedImage mesa;
     Mouse mouse = new Mouse();
     PlayerLogic playerLogic;
+    Pontos pontos;
     LinkedList<Cartas> first, mid, last;
+
     final int windowWidth = 1200, windowHeight = 700;
-    final double FPS = 3000;
+    final double FPS = 622220;
 
     // Load mesa
     {
@@ -49,9 +52,13 @@ public class Game extends JPanel implements Runnable {
         this.mid = new LinkedList<>();
         this.last = new LinkedList<>();
         this.playerLogic = new PlayerLogic(player,enemy,windowWidth);
-
+        this.pontos = new Pontos(this.player, this.enemy);
         this.playerGraph = new PlayerGraph(this.player, windowWidth, 450);
         this.playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
+
+        //this.pontos.setTruco(true);
+
+
     }
 
     public void startGameThread() {
@@ -60,11 +67,13 @@ public class Game extends JPanel implements Runnable {
 
     }
 
+
     public void paintComponent(Graphics graph) {
         super.paintComponent(graph);
         Graphics2D graphics2D = (Graphics2D) graph;
         graphics2D.drawImage(this.mesa,0,0,windowWidth,windowHeight,null);
         this.playerLogic.drawPlayers(graphics2D,enemy);
+        this.pontos.drawTrucoButton(graphics2D);
         if(player.isWinRodada() || enemy.isWinRodada())
             playerLogic.drawGanhador(graphics2D, player.isWinRodada());
 
@@ -76,6 +85,7 @@ public class Game extends JPanel implements Runnable {
     public void update() {
         Random random = new Random();
         int i = random.nextInt(1,4);
+        pontos.update(mouse);
         if(!player.isWinRodada() && !enemy.isWinRodada())
             this.playerLogic.update(this.mouse, i,false);
         else{

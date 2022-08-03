@@ -77,25 +77,6 @@ public class PlayerLogic {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if ((enemy.isWin1())) {
-            System.out.println("Inimigo Ganhou 1");
-        } else {
-            System.out.println("Inimigo Perdeu 1");
-        }
-
-        if ((enemy.isWin2())) {
-            System.out.println("Inimigo Ganhou 2");
-        } else {
-            System.out.println("Inimigo Perdeu 2");
-        }
-        if ((enemy.isWin3())) {
-            System.out.println("Inimigo Ganhou 3");
-        } else {
-            System.out.println("Inimigo Perdeu 3");
-        }
-
-        System.out.println("P1:" + player.isWinRodada() +"|"+"P2:"+enemy.isWinRodada());
-        System.out.println(card);
 
         if(first.size() < 2){ // Primeira Jogada
             if(inverse){
