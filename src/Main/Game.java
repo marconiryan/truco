@@ -14,13 +14,15 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Game extends JPanel implements Runnable {
-    Thread gameThread;
+  
     PlayerGraph playerGraph, playerEnemy;
     Player player, enemy;
     Baralho baralho;
     BufferedImage mesa;
     Mouse mouse = new Mouse();
+    Sound sound = new Sound();
     PlayerLogic playerLogic;
+    Thread gameThread;
     LinkedList<Cartas> first, mid, last;
     final int windowWidth = 1200, windowHeight = 700;
     final double FPS = 3000;
@@ -56,6 +58,7 @@ public class Game extends JPanel implements Runnable {
 
     public void startGameThread() {
         gameThread = new Thread(this);
+        playsoundLoop(0);
         gameThread.start();
 
     }
@@ -72,6 +75,22 @@ public class Game extends JPanel implements Runnable {
 
 
     }
+    
+    public void playsoundLoop(int i){
+
+        sound.Playfile(i);
+        sound.play();
+        sound.loop();
+
+    }
+    
+    public void playSound(int i) {
+    	sound.Playfile(i);
+    	sound.play();
+    } //To-Do 
+    // Fazer efeitos ( De Vitoria,  e cartas)
+    
+
 
     public void update() {
         Random random = new Random();
