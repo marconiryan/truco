@@ -14,7 +14,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Game extends JPanel implements Runnable {
-
     Thread gameThread;
     PlayerGraph playerGraph, playerEnemy;
     Player player, enemy;
@@ -24,7 +23,7 @@ public class Game extends JPanel implements Runnable {
     PlayerLogic playerLogic;
     LinkedList<Cartas> first, mid, last;
     final int windowWidth = 1200, windowHeight = 700;
-    final double FPS = 100;
+    final double FPS = 3000;
 
     // Load mesa
     {
@@ -65,7 +64,7 @@ public class Game extends JPanel implements Runnable {
         super.paintComponent(graph);
         Graphics2D graphics2D = (Graphics2D) graph;
         graphics2D.drawImage(this.mesa,0,0,windowWidth,windowHeight,null);
-        this.playerLogic.drawPlayers(graphics2D);
+        this.playerLogic.drawPlayers(graphics2D,enemy);
         if(player.isWinRodada() || enemy.isWinRodada())
             playerLogic.drawGanhador(graphics2D, player.isWinRodada());
 

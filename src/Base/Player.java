@@ -4,9 +4,10 @@ import java.util.LinkedList;
 
 public class Player {
     private LinkedList<Cartas> cartasPlayer;
-    private boolean decisao, winRodada, mao;
+    private boolean  winRodada, mao;
     private boolean win1, win2, win3;
     private int pontosPartida = 0;
+    private int decisao;
 
 
 
@@ -46,13 +47,9 @@ public class Player {
 
     }
 
-    public boolean isDecisao() {
-        return decisao;
-    }
-
-    public void setDecisao(boolean decisao) {
-        this.decisao = decisao;
-    }
+    public void setDecisaoAccepted(){this.decisao = 1;}
+    public void setDecisaoDenied(){this.decisao = -1;}
+    public void setDecisaoUndefined(){this.decisao = 0;}
 
     public boolean isWin1() {
         return win1;

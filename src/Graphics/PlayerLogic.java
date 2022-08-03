@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerLogic {
 
@@ -29,9 +30,33 @@ public class PlayerLogic {
         playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
 
     }
-    public void drawPlayers(Graphics2D graphics2D){
-        playerGraph.drawPlayerCard(graphics2D);
-        playerEnemy.drawPlayerCard(graphics2D);
+    public void drawPlayers(Graphics2D graphics2D, Player enemy){
+        if(first.size() < 2 || mid.size() < 2 || last.size() < 2){
+            playerEnemy.drawPlayerCard(graphics2D);
+            playerGraph.drawPlayerCard(graphics2D);
+        }
+
+        if(enemy.isWin1()){
+            playerGraph.drawSingleCard(graphics2D, playerGraph.searchCard(first));
+            playerEnemy.drawSingleCard(graphics2D, playerEnemy.searchCard(first));}
+        else{
+            playerEnemy.drawSingleCard(graphics2D, playerEnemy.searchCard(first));
+            playerGraph.drawSingleCard(graphics2D, playerGraph.searchCard(first));
+        }
+        if(enemy.isWin2()){
+            playerGraph.drawSingleCard(graphics2D, playerGraph.searchCard(mid));
+            playerEnemy.drawSingleCard(graphics2D, playerEnemy.searchCard(mid));}
+        else{
+            playerEnemy.drawSingleCard(graphics2D, playerEnemy.searchCard(mid));
+            playerGraph.drawSingleCard(graphics2D, playerGraph.searchCard(mid));
+        }
+        if(enemy.isWin3()){
+            playerGraph.drawSingleCard(graphics2D, playerGraph.searchCard(last));
+            playerEnemy.drawSingleCard(graphics2D, playerEnemy.searchCard(last));}
+        else{
+            playerEnemy.drawSingleCard(graphics2D, playerEnemy.searchCard(last));
+            playerGraph.drawSingleCard(graphics2D, playerGraph.searchCard(last));
+        }
     }
 
     public void drawGanhador(Graphics2D graphics2D, boolean p1){
@@ -47,6 +72,11 @@ public class PlayerLogic {
         graphics2D.drawImage(image,0,0,1200,700,null);
     }
     public void update(Mouse mouse, int card, boolean inverse){
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         if ((enemy.isWin1())) {
             System.out.println("Inimigo Ganhou 1");
         } else {
@@ -86,7 +116,7 @@ public class PlayerLogic {
 
 
         }else{
-            whoWin(first,player,enemy,1, inverse);
+            whoWins(first,player,enemy,1, inverse);
             if(mid.size() < 2){
                 if(enemy.isWin1()){
                     if(mid.isEmpty())
@@ -100,7 +130,7 @@ public class PlayerLogic {
                         playerEnemy.update(true, card, this.first, this.mid, this.last);
                 }
             }else{ // Terceira Jogada
-                whoWin(mid,player,enemy,2,enemy.isWin1());
+                whoWins(mid,player,enemy,2,enemy.isWin1());
                 if(last.size() < 2 && !player.isWinRodada() && !enemy.isWinRodada()) {
                     if (enemy.isWin2()) {
                         if (last.isEmpty())
@@ -115,7 +145,7 @@ public class PlayerLogic {
                     }
                 }else{
                     if(!player.isWinRodada() && !enemy.isWinRodada())
-                        whoWin(last,player,enemy,3, enemy.isWin2());
+                        whoWins(last,player,enemy,3, enemy.isWin2());
                 }
             }
 
@@ -123,7 +153,7 @@ public class PlayerLogic {
     }
 
 
-    private void whoWin(LinkedList<Cartas> cartas, Player player1, Player player2, int rodada, boolean reverso){
+    private void whoWins(LinkedList<Cartas> cartas, Player player1, Player player2, int rodada, boolean reverso){
         int maior = Cartas.isCartaMaior(cartas.get(0), cartas.get(1));
         if(maior < 0){
             reverso = !reverso;

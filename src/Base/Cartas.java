@@ -37,4 +37,5 @@ public record Cartas(int naipe, int numero, int peso) {
         return numero;
     }
 
+
 }

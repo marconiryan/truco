@@ -21,7 +21,6 @@ public class PlayerGraph {
     private final int  centerWScreen = 400, centerHScreen = 233, offset = 200;
 
 
-
     public PlayerGraph(Player player, int posCardX, int posCardY) {
         this.basePlayer = player;
         this.posCardX = posCardX;
@@ -36,6 +35,25 @@ public class PlayerGraph {
         this.xCard3 = centerWScreen + offset * 2;
     }
 
+    public int searchCard(LinkedList<Cartas> cartas){
+        for(Cartas c: cartas){
+            if(c == basePlayer.getCartasPlayer().get(0))
+                return 1;
+            else if(c == basePlayer.getCartasPlayer().get(1))
+                return 2;
+            else if(c == basePlayer.getCartasPlayer().get(2))
+                return 3;
+        }
+        return 0;
+    }
+    public void drawSingleCard(Graphics2D graphics2D, int card){
+        if(card == 1)
+            drawCard(graphics2D, card1,xCard1,yCard1,width,height);
+        else if(card == 2)
+            drawCard(graphics2D, card2,xCard2,yCard2,width,height);
+        else if(card == 3)
+            drawCard(graphics2D, card3,xCard3,yCard3,width,height);
+    }
     public void drawPlayerCard(Graphics2D graphics2D){
         try {
             this.card1= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(Cartas.getNameSprite(basePlayer.getCartasPlayer().get(0)))));
