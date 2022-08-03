@@ -1,7 +1,9 @@
 package Graphics;
 
+import Base.ButtonTruco;
 import Base.Cartas;
 import Base.Player;
+import Base.Pontos;
 import Main.Mouse;
 
 import javax.imageio.ImageIO;
@@ -19,13 +21,20 @@ public class PlayerLogic {
     Player player;
     Player enemy;
     LinkedList<Cartas> first, mid, last;
+    ButtonTruco buttonTruco;
+    Mouse mouse;
+    Pontos pontos;
 
-    public PlayerLogic(Player player, Player enemy, int windowWidth){
+    public PlayerLogic(Player player, Player enemy, int windowWidth, Mouse mouse, Pontos pontos){
         this.player = player;
         this.enemy = enemy;
         this.first = new LinkedList<>();
         this.mid = new LinkedList<>();
         this.last = new LinkedList<>();
+        this.mouse = mouse;
+        this.pontos = pontos;
+        this.buttonTruco = new ButtonTruco(mouse, pontos);
+
         playerGraph = new PlayerGraph(this.player,windowWidth,450);
         playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
 
@@ -59,6 +68,11 @@ public class PlayerLogic {
         }
     }
 
+
+    public void drawButtonTruco(Graphics2D graphics2D){
+        this.buttonTruco.drawButton(graphics2D);
+    }
+
     public void drawGanhador(Graphics2D graphics2D, boolean p1){
         BufferedImage image;
         try {
@@ -71,13 +85,22 @@ public class PlayerLogic {
         }
         graphics2D.drawImage(image,0,0,1200,700,null);
     }
-    public void update(Mouse mouse, int card, boolean inverse){
+
+    private void updateTrucoOrEnvido(){
+        if(buttonTruco.buttonIsPressed(this.mouse)){
+            pontos.setSequenciaTruco();
+        }
+    }
+
+    public void updateJogada(Mouse mouse, int card, boolean inverse){
         try {
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
+
+        updateTrucoOrEnvido();
         if(first.size() < 2){ // Primeira Jogada
             if(inverse){
                 if(first.isEmpty()){
