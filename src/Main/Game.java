@@ -24,10 +24,10 @@ public class Game extends JPanel implements Runnable {
     Sound sound = new Sound();
     PlayerLogic playerLogic;
     Pontos pontos;
-
     LinkedList<Cartas> first, mid, last;
 
     Thread gameThread;
+    LinkedList<Cartas> first, mid, last;
 
 
     final int windowWidth = 1200, windowHeight = 700;
