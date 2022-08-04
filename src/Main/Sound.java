@@ -11,9 +11,9 @@ public class Sound {
     URL[] soundURL = new URL[10];
 
     public Sound() {
-        soundURL[0] = this.getClass().getResource("/Sounds/loopjazz.wav");
-       // soundURL[1] = this.getClass().getResource("/Sounds/chicoteada.wav"); To-Do
-      //  soundURL[2] = this.getClass().getResource("/Sounds/winner.wav");
+        soundURL[0] = this.getClass().getResource("/Sounds/trucomodao.wav");
+        // soundURL[1] = this.getClass().getResource("/Sounds/chicoteada.wav"); To-Do
+        //  soundURL[2] = this.getClass().getResource("/Sounds/winner.wav");
     }
 
     public void Playfile(int i) {
@@ -24,7 +24,7 @@ public class Sound {
             clip.open(AudioINP);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | NullPointerException e) {
             System.out.println("Invalid Sound!");
-            e.printStackTrace();	
+            e.printStackTrace();
 
         }
     }
@@ -33,10 +33,10 @@ public class Sound {
         clip.start();
 
     }
-    
+
     public void loop() {
-    	clip.loop(Clip.LOOP_CONTINUOUSLY);
-    	
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+
     }
 
 }

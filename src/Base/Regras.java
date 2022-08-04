@@ -1,44 +1,35 @@
 package Base;
 
-import Graphics.PlayerLogic;
-
 public class Regras  {
-    private boolean truco, retruco, valequatro;
+    private int truco = 0;
     private boolean envido, realenvido, faltaenvido;
 
     public boolean isTruco() {
-        return truco;
+        return truco == 1;
     }
 
     public boolean isRetruco() {
-        return retruco;
+        return truco == 2;
     }
 
     public boolean isValequatro() {
-        return valequatro;
+        return truco == 3;
     }
 
-    public void setTruco(boolean truco) {
-        this.truco = truco;
+    public void setTruco() {
+        this.truco = 1;
     }
 
-    public void setRetruco(boolean retruco) {
-        this.retruco = retruco;
+    public void setRetruco() {
+        this.truco = 2;
     }
 
-    public void setValequatro(boolean valequatro) {
-        this.valequatro = valequatro;
+    public void setValequatro() {
+        this.truco = 3;
     }
-
-    public void sequenciaTruco(){
-        if(!isTruco())
-            setTruco(true);
-
-        else if(!isRetruco())
-            setRetruco(true);
-
-        else if(!isValequatro())
-            setValequatro(true);
+    public void setSequenciaTruco(){
+        if(this.truco < 3)
+            this.truco += 1;
     }
 
     public boolean isEnvido() {

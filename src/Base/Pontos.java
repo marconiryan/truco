@@ -2,13 +2,16 @@ package Base;
 
 import Main.Mouse;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
+
 public class Pontos extends Regras {
     private int  pointsRodada = 1;
 
-    private Player player, enemy;
-    public Pontos(Player player, Player enemy){
-        this.player = player;
-        this.enemy = enemy;
+    public Pontos(){
 
     }
 
@@ -25,15 +28,10 @@ public class Pontos extends Regras {
         }
     }
 
-    private boolean buttonIsPressed(Mouse mouse, boolean rangeButton){
-        return mouse.pressed && rangeButton;
-    }
 
-    public void update(Mouse mouse){
+    public void update(){
         updatePoints();
-        if(buttonIsPressed(mouse, false)){ // ToDo
-            sequenciaTruco();
-        }
+
 
     }
 
