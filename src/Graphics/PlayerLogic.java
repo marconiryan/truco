@@ -1,7 +1,6 @@
 package Graphics;
 
-import Base.Cartas;
-import Base.Player;
+import Base.*;
 import Main.Mouse;
 
 import javax.imageio.ImageIO;
@@ -19,18 +18,32 @@ public class PlayerLogic {
     Player player;
     Player enemy;
     LinkedList<Cartas> first, mid, last;
+    ButtonTruco buttonTruco;
+    ButtonDecisao buttonDecisao;
+    Mouse mouse;
+    Pontos pontos;
 
-    public PlayerLogic(Player player, Player enemy, int windowWidth){
+    public PlayerLogic(Player player, Player enemy, int windowWidth, Mouse mouse, Pontos pontos){
         this.player = player;
         this.enemy = enemy;
         this.first = new LinkedList<>();
         this.mid = new LinkedList<>();
         this.last = new LinkedList<>();
+        this.mouse = mouse;
+        this.pontos = pontos;
+        this.buttonTruco = new ButtonTruco(mouse, pontos);
+        this.buttonDecisao = new ButtonDecisao(this.mouse);
+
         playerGraph = new PlayerGraph(this.player,windowWidth,450);
         playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
 
     }
-    public void drawPlayers(Graphics2D graphics2D, Player enemy){
+
+    public void drawButtonDecisao(Graphics2D graphics2D){
+        buttonDecisao.drawButton(graphics2D, enemy.isChamouTruco() && player.isDecisaoUndefined());
+    }
+
+    public void drawPlayers(Graphics2D graphics2D){
         if(first.size() < 2 || mid.size() < 2 || last.size() < 2){
             playerEnemy.drawPlayerCard(graphics2D);
             playerGraph.drawPlayerCard(graphics2D);
@@ -59,6 +72,11 @@ public class PlayerLogic {
         }
     }
 
+
+    public void drawButtonTruco(Graphics2D graphics2D){
+        this.buttonTruco.drawButton(graphics2D, this.enemy);
+    }
+
     public void drawGanhador(Graphics2D graphics2D, boolean p1){
         BufferedImage image;
         try {
@@ -71,32 +89,40 @@ public class PlayerLogic {
         }
         graphics2D.drawImage(image,0,0,1200,700,null);
     }
+
+    private boolean updateTrucoOrEnvido(){
+        if(buttonTruco.buttonIsPressed(this.mouse)){
+            player.setDecisao(buttonDecisao.isPressed());
+            pontos.setSequenciaTruco();
+            return true;
+        }
+        return false;
+    }
+
+
     public void update(Mouse mouse, int card, boolean inverse){
         try {
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if ((enemy.isWin1())) {
-            System.out.println("Inimigo Ganhou 1");
-        } else {
-            System.out.println("Inimigo Perdeu 1");
+
+        while(player.isDecisaoUndefined() && enemy.isChamouTruco()){
+            System.out.println(buttonDecisao.isPressed());
+            player.setDecisao(buttonDecisao.isPressed());
+        }
+        if(enemy.isChamouTruco() && player.isDecisaoDenied()){
+            enemy.setWinRodada();
         }
 
-        if ((enemy.isWin2())) {
-            System.out.println("Inimigo Ganhou 2");
-        } else {
-            System.out.println("Inimigo Perdeu 2");
-        }
-        if ((enemy.isWin3())) {
-            System.out.println("Inimigo Ganhou 3");
-        } else {
-            System.out.println("Inimigo Perdeu 3");
-        }
 
-        System.out.println("P1:" + player.isWinRodada() +"|"+"P2:"+enemy.isWinRodada());
-        System.out.println(card);
+        updateJogada(mouse,card,inverse);
 
+
+
+    }
+
+    private void updateJogada(Mouse mouse, int card, boolean inverse){
         if(first.size() < 2){ // Primeira Jogada
             if(inverse){
                 if(first.isEmpty()){
