@@ -68,6 +68,12 @@ public class PlayerGraph {
         drawCard(graphics2D, card3,xCard3,yCard3,width,height);
 
     }
+    public void resetGraph(int height){
+        xCard1 = centerWScreen;
+        xCard2 = centerWScreen + offset;
+        xCard3 = centerWScreen + offset * 2;
+        yCard1 = yCard2 = yCard3 = height;
+    }
 
     public void update(boolean jogou, int card, LinkedList<Cartas> first, LinkedList<Cartas> mid, LinkedList<Cartas> last){
         int newCenterHScreen = centerHScreen - 75;

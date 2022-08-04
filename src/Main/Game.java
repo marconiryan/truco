@@ -1,6 +1,5 @@
 package Main;
 import Base.Baralho;
-import Base.Cartas;
 import Base.Player;
 import Base.Pontos;
 import Graphics.*;
@@ -10,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -23,7 +21,6 @@ public class Game extends JPanel implements Runnable {
     Mouse mouse = new Mouse();
     PlayerLogic playerLogic;
     Pontos pontos;
-    LinkedList<Cartas> first, mid, last;
 
     final int windowWidth = 1200, windowHeight = 700;
     final double FPS = 622220;
@@ -48,18 +45,20 @@ public class Game extends JPanel implements Runnable {
         this.enemy = new Player();
         this.baralho.distribuirCartasPlayer(this.player);
         this.baralho.distribuirCartasPlayer(this.enemy);
-        this.first = new LinkedList<>();
-        this.mid = new LinkedList<>();
-        this.last = new LinkedList<>();
         this.pontos = new Pontos();
-        this.playerLogic = new PlayerLogic(player,enemy,windowWidth, mouse, pontos);
-
         this.playerGraph = new PlayerGraph(this.player, windowWidth, 450);
         this.playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
-        this.enemy.setChamouTruco(true);
+        this.playerLogic = new PlayerLogic(player,enemy,windowWidth, mouse, pontos,playerGraph, playerEnemy);
 
-        //this.pontos.setTruco(true);
+    }
 
+    public void resetGame(){
+        playerLogic.reset();
+        baralho.setBaralho();
+        playerGraph.resetGraph(450);
+        playerEnemy.resetGraph(850);
+        baralho.distribuirCartasPlayer(this.player);
+        baralho.distribuirCartasPlayer(this.enemy);
 
     }
 
@@ -77,9 +76,10 @@ public class Game extends JPanel implements Runnable {
         this.playerLogic.drawPlayers(graphics2D);
         this.playerLogic.drawButtonTruco(graphics2D);
         this.playerLogic.drawButtonDecisao(graphics2D);
-        //this.pontos.drawTrucoButton(graphics2D);
-        if(player.isWinRodada() || enemy.isWinRodada())
-            playerLogic.drawGanhador(graphics2D, player.isWinRodada());
+        if(player.isWinRodada() || enemy.isWinRodada()){
+            playerLogic.drawGanhador(graphics2D, player.isWinRodada(), false);
+            resetGame();
+        }
 
         graphics2D.dispose();
 

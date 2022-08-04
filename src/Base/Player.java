@@ -47,7 +47,13 @@ public class Player {
     }
 
     public void resetPlayer(){
-
+        this.cartasPlayer.clear();
+        this.win1 = false;
+        this.win2 = false;
+        this.win3 = false;
+        setDecisaoUndefined();
+        this.winRodada = false;
+        this.mao = false;
     }
 
     public void setWinRodada() {

@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ButtonTruco extends Buttons{
-    private final BufferedImage trucoButton, nadaButton;
+    private final BufferedImage trucoButton;
+    private BufferedImage nadaButton;
     private final int xTrucoButton = 200;
     private final int yTrucoButton = 650;
     private final int wTrucoButton = 100;
@@ -21,7 +22,7 @@ public class ButtonTruco extends Buttons{
         super(mouse);
         try {
             this.trucoButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/truco.png")));
-            this.nadaButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/nada.png")));
+            //this.nadaButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/nada.png")));
 
         } catch (IOException e) {
             throw new RuntimeException(e);

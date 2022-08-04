@@ -23,7 +23,7 @@ public class PlayerLogic {
     Mouse mouse;
     Pontos pontos;
 
-    public PlayerLogic(Player player, Player enemy, int windowWidth, Mouse mouse, Pontos pontos){
+    public PlayerLogic(Player player, Player enemy, int windowWidth, Mouse mouse, Pontos pontos, PlayerGraph playerGraph, PlayerGraph playerEnemy){
         this.player = player;
         this.enemy = enemy;
         this.first = new LinkedList<>();
@@ -34,8 +34,8 @@ public class PlayerLogic {
         this.buttonTruco = new ButtonTruco(mouse, pontos);
         this.buttonDecisao = new ButtonDecisao(this.mouse);
 
-        playerGraph = new PlayerGraph(this.player,windowWidth,450);
-        playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
+        this.playerGraph = playerGraph; //= new PlayerGraph(this.player,windowWidth,450);
+        this.playerEnemy = playerEnemy; //= new PlayerGraph(this.enemy, windowWidth, 850);
 
     }
 
@@ -72,18 +72,29 @@ public class PlayerLogic {
         }
     }
 
-
+    public void reset(){
+        this.enemy.resetPlayer();
+        this.player.resetPlayer();
+        this.first.clear();
+        this.mid.clear();
+        this.last.clear();
+    }
     public void drawButtonTruco(Graphics2D graphics2D){
         this.buttonTruco.drawButton(graphics2D, this.enemy);
     }
 
-    public void drawGanhador(Graphics2D graphics2D, boolean p1){
+
+    public void drawGanhador(Graphics2D graphics2D, boolean player1, boolean alguemGanhou){
         BufferedImage image;
         try {
-            if(p1)
-                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/player1Win.png")));
-            else
-                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/player2Win.png")));
+            if(alguemGanhou){
+                if(player1)
+                    image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/player1Win.png")));
+                else
+                    image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/player2Win.png")));
+            }else{
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/distribuindo.png")));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -115,11 +126,7 @@ public class PlayerLogic {
             enemy.setWinRodada();
         }
 
-
         updateJogada(mouse,card,inverse);
-
-
-
     }
 
     private void updateJogada(Mouse mouse, int card, boolean inverse){
