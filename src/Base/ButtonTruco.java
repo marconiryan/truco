@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ButtonTruco extends Buttons{
-    private final BufferedImage trucoButton, retrucoButton, valequatroButton, nadaButton;
+    private final BufferedImage trucoButton, nadaButton;
     private final int xTrucoButton = 200;
     private final int yTrucoButton = 650;
     private final int wTrucoButton = 100;
@@ -21,8 +21,6 @@ public class ButtonTruco extends Buttons{
         super(mouse);
         try {
             this.trucoButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/truco.png")));
-            this.retrucoButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/retruco.png")));
-            this.valequatroButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/valequatro.png")));
             this.nadaButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/nada.png")));
 
         } catch (IOException e) {
@@ -31,14 +29,8 @@ public class ButtonTruco extends Buttons{
         this.pontos = pontos;
     }
 
-    public void drawButton(Graphics2D graphics2D) {
-        if(pontos.isTruco()){
-            drawButton(graphics2D,retrucoButton, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
-        }
-        else if(pontos.isRetruco()){
-            drawButton(graphics2D,valequatroButton, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
-        }
-        else if(pontos.isValequatro()){
+    public void drawButton(Graphics2D graphics2D, Player enemy) {
+        if(pontos.isTruco() || enemy.isChamouTruco()){
             drawButton(graphics2D,nadaButton, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
         }
         else{

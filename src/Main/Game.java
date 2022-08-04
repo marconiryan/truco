@@ -56,6 +56,7 @@ public class Game extends JPanel implements Runnable {
 
         this.playerGraph = new PlayerGraph(this.player, windowWidth, 450);
         this.playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
+        this.enemy.setChamouTruco(true);
 
         //this.pontos.setTruco(true);
 
@@ -73,8 +74,9 @@ public class Game extends JPanel implements Runnable {
         super.paintComponent(graph);
         Graphics2D graphics2D = (Graphics2D) graph;
         graphics2D.drawImage(this.mesa,0,0,windowWidth,windowHeight,null);
-        this.playerLogic.drawPlayers(graphics2D,enemy);
+        this.playerLogic.drawPlayers(graphics2D);
         this.playerLogic.drawButtonTruco(graphics2D);
+        this.playerLogic.drawButtonDecisao(graphics2D);
         //this.pontos.drawTrucoButton(graphics2D);
         if(player.isWinRodada() || enemy.isWinRodada())
             playerLogic.drawGanhador(graphics2D, player.isWinRodada());
@@ -87,17 +89,7 @@ public class Game extends JPanel implements Runnable {
     public void update() {
         Random random = new Random();
         int i = random.nextInt(1,4);
-        //pontos.update(mouse,false,this.player,this.enemy);
-
-
-        if(!player.isWinRodada() && !enemy.isWinRodada())
-            this.playerLogic.updateJogada(this.mouse, i,false);
-        else{
-            if(player.isWinRodada())
-                System.out.println("P1 Ganhou");
-            else
-                System.out.println("P2 Ganhou");
-        }
+        this.playerLogic.update(this.mouse, i,false);
 
     }
 
