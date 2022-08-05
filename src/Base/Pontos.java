@@ -46,7 +46,7 @@ public class Pontos{
 
     public void updatePoints(){
         setPointsTruco();
-        setPointsEnvido();
+        //setPointsEnvido();
 
     }
 
@@ -67,7 +67,7 @@ public class Pontos{
 
     }
 
-    private void setPointsEnvido(){
+    public void setPointsEnvido(){
         //updatePoints();
         if(isEnvido()){
             if(player.getEnvido() > enemy.getEnvido()){

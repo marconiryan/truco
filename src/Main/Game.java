@@ -50,7 +50,7 @@ public class Game extends JPanel implements Runnable {
         this.playerGraph = new PlayerGraph(this.player, windowWidth, 450);
         this.playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
         this.playerLogic = new PlayerLogic(player,enemy,windowWidth, mouse, pontos,playerGraph, playerEnemy);
-        this.enemy.setChamouTruco(true);
+        this.enemy.setChamouEnvido(true);
 
     }
 
@@ -97,7 +97,12 @@ public class Game extends JPanel implements Runnable {
         Random random = new Random();
         int i = random.nextInt(1,4);
         this.playerLogic.update(this.mouse, i,false);
+        System.out.println(enemy.isChamouTruco());
 
+    }
+
+    private boolean momentEnvido(){
+        return  (!player.isDecisaoUndefined() && enemy.isChamouEnvido()) || (!enemy.isDecisaoUndefined() && player.isChamouEnvido());
     }
 
     @Override
@@ -113,7 +118,8 @@ public class Game extends JPanel implements Runnable {
             if (delta >= 1) {
                 update();
                 repaint();
-                if(player.isWinRodada() || enemy.isWinRodada()){
+
+                if((player.isWinRodada() || enemy.isWinRodada()) || momentEnvido()){
                     try {
                         TimeUnit.MILLISECONDS.sleep(1000);
                     } catch (InterruptedException e) {

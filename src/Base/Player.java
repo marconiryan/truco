@@ -27,7 +27,7 @@ public class Player {
         return chamouEnvido;
     }
     public void setChamouEnvido(boolean envido){
-        this.chamouTruco = envido;
+        this.chamouEnvido = envido;
     }
 
     public void setChamouTruco(boolean chamouTruco) {

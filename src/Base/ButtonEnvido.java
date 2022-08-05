@@ -31,7 +31,7 @@ public class ButtonEnvido extends Buttons{
     }
 
     public void drawButton(Graphics2D graphics2D, Player enemy) {
-        if(pontos.isEnvido() || enemy.isChamouEnvido()){
+        if(pontos.isEnvido() || enemy.isChamouEnvido() && !pontos.isEnvido()){
             drawButton(graphics2D,nadaButton, xEnvidoButton, yEnvidoButton, wEnvidoButton, hEnvidoButton);
         }
         else{
