@@ -1,6 +1,7 @@
 package Base;
 
-import java.util.LinkedList;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Player {
     private LinkedList<Cartas> cartasPlayer;
@@ -106,30 +107,31 @@ public class Player {
     }
 
     public int getEnvido(){
-        LinkedList<Cartas> envido = Baralho.getMesmoTipo(getCartasPlayer());
-        if(envido.isEmpty()){
-            Cartas cartaVar =  Baralho.getMaior(getCartasPlayer());
-            if(cartaVar == null){
-                return 0;
+        LinkedList<Cartas> mesmoTipo = Baralho.getMesmoTipo(getCartasPlayer());
+        if(!mesmoTipo.isEmpty()){
+            int soma = 20;
+            List<Cartas> envido = new ArrayList<>(mesmoTipo.stream().filter(cartas -> cartas.numero() < 10).toList());
+            for(Cartas cartas: envido){
+                System.out.println(cartas.numero());
             }
-            return cartaVar.numero();
-        }
-        if(envido.size() > 2){
-            LinkedList<Cartas> temp = new LinkedList<>();
-            temp.add(Baralho.getMaior(envido));
-            envido.remove(Baralho.getMaior(envido));
-            temp.add(Baralho.getMaior(envido));
-            envido.remove(Baralho.getMaior(envido));
-            envido = temp;
-        }
-
-        int soma = 20;
-        for(Cartas cartas: envido){
-            if(cartas.numero() < 10){
+            if(envido.size() > 2){ // Se for flor
+                Cartas min = envido.get(0);
+                for(Cartas c: envido){
+                    if(c.numero() < min.numero()){
+                        min = c;
+                    }
+                }
+                envido.remove(min);
+            }
+            for(Cartas cartas: envido){
                 soma += cartas.numero();
             }
-        }
-        return soma;
-    }
 
+            return soma;
+        }
+        Stream<Cartas> envido = getCartasPlayer().stream().filter(cartas -> cartas.numero()  < 10);
+        Optional<Cartas> maiorCarta = envido.max(Comparator.comparing(Cartas::numero));
+        return maiorCarta.isEmpty() ? 0: maiorCarta.get().numero();
+
+    }
 }
