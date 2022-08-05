@@ -8,7 +8,7 @@ public class Player {
     private boolean  winRodada, mao;
     private boolean win1, win2, win3;
     private int pontosPartida = 0;
-    private int decisao= 0 ;
+    private int decisao = 0;
     private boolean chamouTruco;
     private boolean chamouEnvido;
 
@@ -26,6 +26,9 @@ public class Player {
     public boolean isChamouEnvido() {
         return chamouEnvido;
     }
+    public void setChamouEnvido(boolean envido){
+        this.chamouEnvido = envido;
+    }
 
     public void setChamouTruco(boolean chamouTruco) {
         this.chamouTruco = chamouTruco;
@@ -37,6 +40,10 @@ public class Player {
 
     public void setPontosPartida(int pontosPartida) {
         this.pontosPartida = pontosPartida;
+    }
+
+    public void updatePontosPartida(int pontos){
+        setPontosPartida(getPontosPartida() + pontos);
     }
 
     public boolean isWinRodada() {
@@ -59,6 +66,8 @@ public class Player {
         setDecisaoUndefined();
         this.winRodada = false;
         this.mao = false;
+        this.chamouTruco = false;
+        this.chamouEnvido = false;
     }
 
     public void setWinRodada() {

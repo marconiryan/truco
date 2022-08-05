@@ -38,14 +38,12 @@ public class ButtonTruco extends Buttons{
             drawButton(graphics2D,trucoButton, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
         }
     }
-    private void update(){
-        this.pontos.setSequenciaTruco();
-    }
 
-    public boolean buttonIsPressed(Mouse mouse) {
+
+    public boolean buttonIsPressed(Mouse mouse, Player player) {
         boolean rangeButton = buttonIsPressed(mouse,xTrucoButton, xTrucoButton + wTrucoButton, yTrucoButton, yTrucoButton + hTrucoButton );
         if(rangeButton){
-            update();
+            player.setChamouTruco(true);
             return true;
         }
         return false;
