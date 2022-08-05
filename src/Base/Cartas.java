@@ -31,7 +31,7 @@ public record Cartas(int naipe, int numero, int peso) {
         return var;
     }
     private int setNumero(int numero) {
-        if (numero <= 0 || numero >= 14) {
+        if (numero < 0 || numero >= 14) {
             throw new RuntimeException("Numero Inválido");
         }
         return numero;

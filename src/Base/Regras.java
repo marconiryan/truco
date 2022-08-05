@@ -12,6 +12,10 @@ public class Regras  {
         if(this.truco < 2)
             this.truco += 1;
     }
+    public void reset(){
+        this.envido = false;
+        this.truco = 0;
+    }
 
     public boolean isEnvido() {
         return envido;

@@ -18,7 +18,7 @@ public class Mouse implements MouseListener{
             this.posX = e.getX();
             this.posY = e.getY();
         }
-        if(code == MouseEvent.BUTTON2){
+        if(code == MouseEvent.BUTTON3){
             restart = true;
         }
     }
@@ -31,7 +31,7 @@ public class Mouse implements MouseListener{
             this.posX = e.getX();
             this.posY = e.getY();
         }
-        if(code == MouseEvent.BUTTON2){
+        if(code == MouseEvent.BUTTON3){
             restart = false;
         }
     }

@@ -1,6 +1,7 @@
 package Base;
 
-import java.util.LinkedList;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Player {
     private LinkedList<Cartas> cartasPlayer;
@@ -9,6 +10,7 @@ public class Player {
     private int pontosPartida = 0;
     private int decisao= 0 ;
     private boolean chamouTruco;
+    private boolean chamouEnvido;
 
 
 
@@ -20,6 +22,9 @@ public class Player {
 
     public boolean isChamouTruco() {
         return chamouTruco;
+    }
+    public boolean isChamouEnvido() {
+        return chamouEnvido;
     }
 
     public void setChamouTruco(boolean chamouTruco) {
@@ -47,7 +52,13 @@ public class Player {
     }
 
     public void resetPlayer(){
-
+        this.cartasPlayer.clear();
+        this.win1 = false;
+        this.win2 = false;
+        this.win3 = false;
+        setDecisaoUndefined();
+        this.winRodada = false;
+        this.mao = false;
     }
 
     public void setWinRodada() {
@@ -94,14 +105,33 @@ public class Player {
     public void setCartasPlayer(LinkedList<Cartas> cartasPlayer) {
         this.cartasPlayer = cartasPlayer;
     }
-    public int getEnvido(){
-        int pontos = 0;
 
-        for(Cartas cartas: getCartasPlayer()){
-            if(cartas.numero() < 10){
-                pontos += cartas.numero();
+    public int getEnvido(){
+        LinkedList<Cartas> mesmoTipo = Baralho.getMesmoTipo(getCartasPlayer());
+        if(!mesmoTipo.isEmpty()){
+            int soma = 20;
+            List<Cartas> envido = new ArrayList<>(mesmoTipo.stream().filter(cartas -> cartas.numero() < 10).toList());
+            for(Cartas cartas: envido){
+                System.out.println(cartas.numero());
             }
+            if(envido.size() > 2){ // Se for flor
+                Cartas min = envido.get(0);
+                for(Cartas c: envido){
+                    if(c.numero() < min.numero()){
+                        min = c;
+                    }
+                }
+                envido.remove(min);
+            }
+            for(Cartas cartas: envido){
+                soma += cartas.numero();
+            }
+
+            return soma;
         }
-        return pontos;
+        Stream<Cartas> envido = getCartasPlayer().stream().filter(cartas -> cartas.numero()  < 10);
+        Optional<Cartas> maiorCarta = envido.max(Comparator.comparing(Cartas::numero));
+        return maiorCarta.isEmpty() ? 0: maiorCarta.get().numero();
+
     }
 }
