@@ -12,20 +12,16 @@ import java.util.Objects;
 
 public class ButtonTruco extends Buttons{
     private final BufferedImage trucoButton;
-    private BufferedImage nadaButton;
     private final int xTrucoButton = 530;
     private final int yTrucoButton = 650;
     private final int wTrucoButton = 100;
     private final int hTrucoButton = 50;
-    Pontos pontos;
-
+    private final Pontos pontos;
 
     public ButtonTruco(Mouse mouse, Pontos pontos) {
         super(mouse);
         try {
             this.trucoButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/truco.png")));
-            //this.nadaButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/nada.png")));
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -34,13 +30,12 @@ public class ButtonTruco extends Buttons{
 
     public void drawButton(Graphics2D graphics2D, Player enemy) {
         if(pontos.isTruco() || enemy.isChamouTruco()){
-            drawButton(graphics2D,nadaButton, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
+            drawButton(graphics2D,null, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
         }
         else{
             drawButton(graphics2D,trucoButton, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
         }
     }
-
 
     public boolean buttonIsPressed(Mouse mouse, Player player) {
         boolean rangeButton = buttonIsPressed(mouse,xTrucoButton, xTrucoButton + wTrucoButton, yTrucoButton, yTrucoButton + hTrucoButton );

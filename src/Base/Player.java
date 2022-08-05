@@ -24,9 +24,11 @@ public class Player {
     public boolean isChamouTruco() {
         return chamouTruco;
     }
+
     public boolean isChamouEnvido() {
         return chamouEnvido;
     }
+
     public void setChamouEnvido(boolean envido){
         this.chamouEnvido = envido;
     }

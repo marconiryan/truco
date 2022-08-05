@@ -17,18 +17,16 @@ import java.util.concurrent.TimeUnit;
 
 public class Logic {
 
-    Graph playerGraph;
-    Graph playerEnemy;
-    Player player;
-    Player enemy;
-    LinkedList<Cartas> first, mid, last;
-    ButtonTruco buttonTruco;
-    ButtonDecisao buttonDecisao;
-    ButtonEnvido buttonEnvido;
-    Mouse mouse;
-    Pontos pontos;
+    private final Graph playerGraph, playerEnemy;
+    private final Player player, enemy;
+    private final LinkedList<Cartas> first, mid, last;
+    private final ButtonTruco buttonTruco;
+    private final ButtonDecisao buttonDecisao;
+    private final ButtonEnvido buttonEnvido;
+    private final Mouse mouse;
+    private final Pontos pontos;
 
-    public Logic(Player player, Player enemy, int windowWidth, Mouse mouse, Pontos pontos, Graph playerGraph, Graph playerEnemy){
+    public Logic(Player player, Player enemy, Mouse mouse, Pontos pontos, Graph playerGraph, Graph playerEnemy){
         this.player = player;
         this.enemy = enemy;
         this.first = new LinkedList<>();

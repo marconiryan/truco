@@ -11,7 +11,7 @@ import java.util.Objects;
 public class ButtonDecisao extends  Buttons{
     private final BufferedImage accepted, denied;
     private final int buttonX = 500, buttonY = 20, buttonW = 100, buttonH = 50, offset = 150;
-    Mouse mouse;
+    private final Mouse mouse;
 
     public ButtonDecisao(Mouse mouse) {
         super(mouse);

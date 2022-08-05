@@ -5,8 +5,8 @@ import Main.Mouse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Buttons {
-    Mouse mouse;
+public abstract class Buttons {
+    protected Mouse mouse;
 
     public Buttons(Mouse mouse){
         this.mouse = mouse;
@@ -19,7 +19,5 @@ public class Buttons {
     public void drawButton(Graphics2D graphics2D, BufferedImage image, int x, int y, int w, int h){
         graphics2D.drawImage(image,x,y,w,h,null);
     }
-
-
 
 }

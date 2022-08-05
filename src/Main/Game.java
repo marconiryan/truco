@@ -14,17 +14,17 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Game extends JPanel implements Runnable {
-    Thread gameThread;
-    Graph playerGraph, playerEnemy;
-    Player player, enemy;
-    Baralho baralho;
-    BufferedImage mesa;
-    Mouse mouse = new Mouse();
-    Logic logic;
-    Pontos pontos;
-
-    final int windowWidth = 1200, windowHeight = 700;
-    final double FPS = 622220;
+    private Thread gameThread;
+    private final Graph playerGraph, playerEnemy;
+    private final Player player, enemy;
+    private final Baralho baralho;
+    private final BufferedImage mesa;
+    private final Mouse mouse = new Mouse();
+    private final Logic logic;
+    private final Pontos pontos;
+    private boolean enemyComeca;
+    private final int windowWidth = 1200, windowHeight = 700;
+    final double FPS = 60;
 
     // Load mesa
     {
@@ -49,8 +49,8 @@ public class Game extends JPanel implements Runnable {
         this.pontos = new Pontos(player,enemy);
         this.playerGraph = new Graph(this.player, windowWidth, 450);
         this.playerEnemy = new Graph(this.enemy, windowWidth, 850);
-        this.logic = new Logic(player,enemy,windowWidth, mouse, pontos,playerGraph, playerEnemy);
-        this.enemy.setChamouEnvido(true);
+        this.logic = new Logic(player,enemy,mouse, pontos,playerGraph, playerEnemy);
+        this.enemyComeca = false;
 
     }
 
@@ -61,6 +61,7 @@ public class Game extends JPanel implements Runnable {
         playerEnemy.resetGraph(850);
         baralho.distribuirCartasPlayer(this.player);
         baralho.distribuirCartasPlayer(this.enemy);
+        enemyComeca = !enemyComeca;
 
     }
 
@@ -75,8 +76,11 @@ public class Game extends JPanel implements Runnable {
         Graphics2D graphics2D = (Graphics2D) graph;
         graphics2D.drawImage(this.mesa,0,0,windowWidth,windowHeight,null);
         logic.drawDecisao(graphics2D);
-        if(player.isWinRodada() || enemy.isWinRodada()){
-            logic.drawGanhador(graphics2D, player.isWinRodada(), false);
+        if(player.getPontosPartida() > 9 || enemy.getPontosPartida() > 9){
+            logic.drawGanhador(graphics2D, player.getPontosPartida() > enemy.getPontosPartida(), true);
+        }
+        else if(player.isWinRodada() || enemy.isWinRodada()){
+            logic.drawGanhador(graphics2D, player.getPontosPartida() > enemy.getPontosPartida(), false);
             resetGame();
 
         }else {
@@ -95,8 +99,8 @@ public class Game extends JPanel implements Runnable {
     }
     public void update() {
         Random random = new Random();
-        int i = random.nextInt(1,4);
-        this.logic.update(this.mouse, i,false);
+        int card = random.nextInt(1,4);
+        this.logic.update(this.mouse, card, enemyComeca);
     }
 
     private boolean momentEnvido(){
@@ -116,7 +120,6 @@ public class Game extends JPanel implements Runnable {
             if (delta >= 1) {
                 update();
                 repaint();
-
                 if((player.isWinRodada() || enemy.isWinRodada()) || momentEnvido()){
                     try {
                         TimeUnit.MILLISECONDS.sleep(1000);
