@@ -75,6 +75,7 @@ public class PlayerLogic {
     }
 
     public void reset(){
+        this.pontos.updatePoints();
         this.pontos.reset();
         this.enemy.resetPlayer();
         this.player.resetPlayer();
@@ -88,7 +89,23 @@ public class PlayerLogic {
     public void drawButtonEnvido(Graphics2D graphics2D){
         this.buttonEnvido.drawButton(graphics2D, this.enemy);
     }
+    public void drawDecisao(Graphics2D graphics2D){
 
+        if(!player.isDecisaoUndefined() && enemy.isChamouTruco() || !enemy.isDecisaoUndefined() && player.isChamouTruco()){
+            String decisao;
+            if(player.isDecisaoAccepted() || enemy.isDecisaoAccepted()){
+                graphics2D.setColor(Color.GREEN);
+                decisao = "Truco aceito";
+            }else{
+                graphics2D.setColor(Color.RED);
+                decisao = "Truco recusado";
+            }
+
+            graphics2D.drawString(decisao, 600, 50);
+
+        }
+
+    }
 
     public void drawGanhador(Graphics2D graphics2D, boolean player1, boolean alguemGanhou){
         BufferedImage image;
@@ -105,15 +122,8 @@ public class PlayerLogic {
             throw new RuntimeException(e);
         }
         graphics2D.drawImage(image,0,0,1200,700,null);
-    }
 
-    private boolean updateTrucoOrEnvido(){
-        if(buttonTruco.buttonIsPressed(this.mouse)){
-            player.setDecisao(buttonDecisao.isPressed());
-            pontos.setSequenciaTruco();
-            return true;
-        }
-        return false;
+
     }
 
 
@@ -123,29 +133,35 @@ public class PlayerLogic {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(player.getEnvido());
 
+        updateTruco();
+        updateJogada(mouse,card,inverse);
+    }
+
+    private void updateTruco(){
         while(player.isDecisaoUndefined() && enemy.isChamouTruco()){
-            System.out.println(buttonDecisao.isPressed());
+            System.out.print("");
             player.setDecisao(buttonDecisao.isPressed());
         }
         if(enemy.isChamouTruco() && player.isDecisaoDenied()){
             enemy.setWinRodada();
+
+        }else if (enemy.isChamouTruco() && player.isDecisaoAccepted()){
+            pontos.setSequenciaTruco();
         }
 
-        //System.out.println(enemy.isDecisaoUndefined());
-        if(buttonTruco.buttonIsPressed(this.mouse)){
+        if(buttonTruco.buttonIsPressed(this.mouse, player)){
             while(enemy.isDecisaoUndefined()){
                 Random random = new Random();
-                enemy.setDecisao(1);
-                //enemy.setDecisao(random.nextInt(-1,2));
-                }
+                enemy.setDecisao(random.nextInt(-1,2));
+            }
         }
-        if(enemy.isDecisaoDenied()){
+        if(enemy.isDecisaoDenied() && player.isChamouTruco()){
             this.player.setWinRodada();
+        }else if(enemy.isDecisaoAccepted() && player.isChamouTruco()){
+            pontos.setSequenciaTruco();
         }
 
-        updateJogada(mouse,card,inverse);
     }
 
     private void updateJogada(Mouse mouse, int card, boolean inverse){

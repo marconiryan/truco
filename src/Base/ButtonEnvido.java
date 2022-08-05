@@ -22,7 +22,7 @@ public class ButtonEnvido extends Buttons{
         super(mouse);
         try {
             this.envidoButton = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/envido.png")));
-            //this.nadaButton= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Sprites/nada.png")));
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -39,10 +39,10 @@ public class ButtonEnvido extends Buttons{
         }
     }
 
-    public boolean buttonIsPressed(Mouse mouse) {
+    public boolean buttonIsPressed(Mouse mouse, Player player) {
         boolean rangeButton = buttonIsPressed(mouse, xEnvidoButton, xEnvidoButton + wEnvidoButton, yEnvidoButton, yEnvidoButton + hEnvidoButton);
         if(rangeButton){
-            pontos.setEnvido(true);
+            player.setChamouEnvido(true);
             return true;
         }
         return false;
