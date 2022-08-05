@@ -11,8 +11,6 @@ public class Pontos{
         this.player = player;
         this.enemy = enemy;
     }
-
-
     public boolean isTruco() {
         return truco;
     }
@@ -34,22 +32,16 @@ public class Pontos{
         this.envido = envido;
     }
 
-
-
     public void drawPoints(Graphics2D graphics2D){
         graphics2D.setColor(Color.CYAN);
         graphics2D.drawString("Player: "+ player.getPontosPartida(),10,20);
         graphics2D.drawString("Adversário: "+ enemy.getPontosPartida(),10,50);
-
-
     }
 
     public void updatePoints(){
         setPointsTruco();
-        //setPointsEnvido();
 
     }
-
 
     private void setPointsTruco(){
         if(isTruco()){
@@ -66,10 +58,8 @@ public class Pontos{
 
 
     }
-
     public void setPointsEnvido(){
-        //updatePoints();
-        if(isEnvido()){
+        if(isEnvido() && (player.isDecisaoEnvidoAccepted() || enemy.isDecisaoEnvidoAccepted())){
             if(player.getEnvido() > enemy.getEnvido()){
                 player.updatePontosPartida(2);
             }
@@ -89,5 +79,4 @@ public class Pontos{
             player.updatePontosPartida(1);
         }
     }
-
 }

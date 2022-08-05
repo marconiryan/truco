@@ -1,4 +1,4 @@
-package Base;
+package Buttons;
 
 import Main.Mouse;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class ButtonDecisao extends  Buttons{
     private final BufferedImage accepted, denied;
-    private final int buttonX = 350, buttonY = 650, buttonW = 100, buttonH = 50, offset = 100;
+    private final int buttonX = 500, buttonY = 20, buttonW = 100, buttonH = 50, offset = 150;
     Mouse mouse;
 
     public ButtonDecisao(Mouse mouse) {

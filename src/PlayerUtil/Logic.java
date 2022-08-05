@@ -1,6 +1,9 @@
-package Graphics;
+package PlayerUtil;
 
 import Base.*;
+import Buttons.ButtonDecisao;
+import Buttons.ButtonEnvido;
+import Buttons.ButtonTruco;
 import Main.Mouse;
 
 import javax.imageio.ImageIO;
@@ -12,10 +15,10 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class PlayerLogic {
+public class Logic {
 
-    PlayerGraph playerGraph;
-    PlayerGraph playerEnemy;
+    Graph playerGraph;
+    Graph playerEnemy;
     Player player;
     Player enemy;
     LinkedList<Cartas> first, mid, last;
@@ -25,7 +28,7 @@ public class PlayerLogic {
     Mouse mouse;
     Pontos pontos;
 
-    public PlayerLogic(Player player, Player enemy, int windowWidth, Mouse mouse, Pontos pontos, PlayerGraph playerGraph, PlayerGraph playerEnemy){
+    public Logic(Player player, Player enemy, int windowWidth, Mouse mouse, Pontos pontos, Graph playerGraph, Graph playerEnemy){
         this.player = player;
         this.enemy = enemy;
         this.first = new LinkedList<>();
@@ -50,8 +53,14 @@ public class PlayerLogic {
         this.last.clear();
     }
     public void drawButtonDecisao(Graphics2D graphics2D){
-        boolean called = (enemy.isChamouTruco() && player.isDecisaoUndefined()) ^ (enemy.isChamouEnvido() && player.isDecisaoUndefined() && !pontos.isEnvido());
+        boolean called = (enemy.isChamouTruco() && player.isDecisaoTrucoUndefined()) ^ (enemy.isChamouEnvido() && player.isDecisaoTrucoUndefined() && !pontos.isEnvido());
         buttonDecisao.drawButton(graphics2D, called);
+        graphics2D.setColor(Color.ORANGE);
+        if(called){
+            String frase = (enemy.isChamouTruco() && player.isDecisaoTrucoUndefined())? "Adversário chamou Truco": "Adversário chamou Envido";
+            graphics2D.drawString(frase,550,10);
+        }
+
     }
 
     public void drawPlayers(Graphics2D graphics2D){
@@ -91,9 +100,9 @@ public class PlayerLogic {
         this.buttonEnvido.drawButton(graphics2D, this.enemy);
     }
     public void drawDecisao(Graphics2D graphics2D){
-        if( (!player.isDecisaoUndefined() && enemy.isChamouTruco() )|| (!enemy.isDecisaoUndefined() && player.isChamouTruco())){
+        if( (!player.isDecisaoTrucoUndefined()|| !enemy.isDecisaoTrucoUndefined())){
             String decisao;
-            if(player.isDecisaoAccepted() || enemy.isDecisaoAccepted()){
+            if(player.isDecisaoTrucoAccepted() || enemy.isDecisaoTrucoAccepted()){
                 graphics2D.setColor(Color.GREEN);
                 decisao = "Truco aceito";
             }else{
@@ -102,23 +111,36 @@ public class PlayerLogic {
             }
             graphics2D.drawString(decisao, 600, 50);
         }
-        if(!player.isDecisaoUndefined() && enemy.isChamouEnvido()){
+
+        if( (!player.isDecisaoEnvidoUndefined()|| !enemy.isDecisaoEnvidoUndefined())){
+            String decisao;
+            if(player.isDecisaoEnvidoAccepted() || enemy.isDecisaoEnvidoAccepted()){
+                graphics2D.setColor(Color.GREEN);
+                decisao = "Envido aceito";
+            }else{
+                graphics2D.setColor(Color.RED);
+                decisao = "Envido recusado";
+            }
+            graphics2D.drawString(decisao, 600, 10);
+        }
+
+
+        if(player.isDecisaoEnvidoAccepted() && enemy.isChamouEnvido() || enemy.isDecisaoEnvidoAccepted() && player.isChamouEnvido()){
             String frase;
 
             if(player.getEnvido() > enemy.getEnvido()){
                 String temp = " a " + enemy.getEnvido();
-                frase = "Player ganhou de " + player.getEnvido() + temp;
-                graphics2D.setColor(Color.MAGENTA);
-                graphics2D.drawString(frase, 300, 30);
+                frase = "Player ganhou o envido de " + player.getEnvido() + temp;
+                graphics2D.setColor(Color.GREEN);
+                graphics2D.drawString(frase, 535, 30);
 
             }
             else{
                 String temp = " a " + player.getEnvido();
-                frase = "Adversario ganhou de " + enemy.getEnvido() + temp;
-                graphics2D.setColor(Color.MAGENTA);
-                graphics2D.drawString(frase, 300, 30);
+                frase = "Adversario ganhou o envido de " + enemy.getEnvido() + temp;
+                graphics2D.setColor(Color.RED);
+                graphics2D.drawString(frase, 520, 30);
             }
-
 
 
         }
@@ -153,68 +175,60 @@ public class PlayerLogic {
         if(!pontos.isTruco()){
             updateTruco();
         }
-        resetDecisao();
         if(!pontos.isEnvido()){
             updateEnvido();
             pontos.setPointsEnvido();
         }
         if(!player.isWinRodada() || !enemy.isWinRodada())
             updateJogada(mouse,card,inverse);
-        //resetDecisao();
-        //pontos.updatePoints();
-    }
-
-    private void resetDecisao(){
-        this.player.setDecisaoUndefined();
-        this.enemy.setDecisaoUndefined();
     }
 
     private void updateTruco(){
-        while(player.isDecisaoUndefined() && enemy.isChamouTruco()){
+        while(player.isDecisaoTrucoUndefined() && enemy.isChamouTruco()){
             System.out.print("");
-            player.setDecisao(buttonDecisao.isPressed());
+            player.setDecisaoTruco(buttonDecisao.isPressed());
         }
-        if(enemy.isChamouTruco() && player.isDecisaoDenied()){
+        if(enemy.isChamouTruco() && player.isDecisaoTrucoDenied()){
             enemy.setWinRodada();
 
-        }else if (enemy.isChamouTruco() && player.isDecisaoAccepted()){
+        }else if (enemy.isChamouTruco() && player.isDecisaoTrucoAccepted()){
             pontos.setSequenciaTruco();
         }
 
         if(buttonTruco.buttonIsPressed(this.mouse, player)){
-            while(enemy.isDecisaoUndefined()){
+            while(enemy.isDecisaoTrucoUndefined()){
                 Random random = new Random();
-                enemy.setDecisao(random.nextInt(-1,2));
+                enemy.setDecisaoTruco(random.nextInt(-1,2));
             }
         }
-        if(enemy.isDecisaoDenied() && player.isChamouTruco()){
+        if(enemy.isDecisaoTrucoDenied() && player.isChamouTruco()){
             this.player.setWinRodada();
-        }else if(enemy.isDecisaoAccepted() && player.isChamouTruco()){
+        }else if(enemy.isDecisaoTrucoAccepted() && player.isChamouTruco()){
             pontos.setSequenciaTruco();
         }
     }
 
     private void updateEnvido(){
-        while(player.isDecisaoUndefined() && enemy.isChamouEnvido() && !pontos.isEnvido()){
+        while(player.isDecisaoEnvidoUndefined() && enemy.isChamouEnvido() && !pontos.isEnvido()){
             System.out.print("");
-            player.setDecisao(buttonDecisao.isPressed());
+            player.setDecisaoEnvido(buttonDecisao.isPressed());
 
         }
-        if(player.isDecisaoDenied() && enemy.isChamouEnvido()){
+        if(player.isDecisaoEnvidoDenied() && enemy.isChamouEnvido()){
             pontos.setEnvido(true);
-        }else if (player.isDecisaoAccepted() && enemy.isChamouEnvido()){
+        }else if (player.isDecisaoEnvidoAccepted() && enemy.isChamouEnvido()){
             pontos.setEnvido(true);
         }
         if(buttonEnvido.buttonIsPressed(mouse, player)){
-            while(enemy.isDecisaoUndefined()){
+            while(enemy.isDecisaoEnvidoUndefined()){
                 Random random = new Random();
-                enemy.setDecisao(random.nextInt(-1,2));
+                enemy.setDecisaoEnvido(random.nextInt(-1,2));
             }
             pontos.setEnvido(true);
         }
-        if(enemy.isDecisaoDenied() && player.isChamouEnvido()){
+        if(enemy.isDecisaoEnvidoDenied() && player.isChamouEnvido()){
             pontos.setEnvido(true);
-        }else if(enemy.isDecisaoAccepted() && player.isChamouEnvido()){
+        }else if(enemy.isDecisaoEnvidoAccepted() && player.isChamouEnvido()){
             pontos.setEnvido(true);
         }
     }

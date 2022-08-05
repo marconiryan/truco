@@ -2,7 +2,7 @@ package Main;
 import Base.Baralho;
 import Base.Player;
 import Base.Pontos;
-import Graphics.*;
+import PlayerUtil.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,12 +15,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Game extends JPanel implements Runnable {
     Thread gameThread;
-    PlayerGraph playerGraph, playerEnemy;
+    Graph playerGraph, playerEnemy;
     Player player, enemy;
     Baralho baralho;
     BufferedImage mesa;
     Mouse mouse = new Mouse();
-    PlayerLogic playerLogic;
+    Logic logic;
     Pontos pontos;
 
     final int windowWidth = 1200, windowHeight = 700;
@@ -47,15 +47,15 @@ public class Game extends JPanel implements Runnable {
         this.baralho.distribuirCartasPlayer(this.player);
         this.baralho.distribuirCartasPlayer(this.enemy);
         this.pontos = new Pontos(player,enemy);
-        this.playerGraph = new PlayerGraph(this.player, windowWidth, 450);
-        this.playerEnemy = new PlayerGraph(this.enemy, windowWidth, 850);
-        this.playerLogic = new PlayerLogic(player,enemy,windowWidth, mouse, pontos,playerGraph, playerEnemy);
+        this.playerGraph = new Graph(this.player, windowWidth, 450);
+        this.playerEnemy = new Graph(this.enemy, windowWidth, 850);
+        this.logic = new Logic(player,enemy,windowWidth, mouse, pontos,playerGraph, playerEnemy);
         this.enemy.setChamouEnvido(true);
 
     }
 
     public void resetGame(){
-        playerLogic.reset();
+        logic.reset();
         baralho.setBaralho();
         playerGraph.resetGraph(450);
         playerEnemy.resetGraph(850);
@@ -74,16 +74,16 @@ public class Game extends JPanel implements Runnable {
         super.paintComponent(graph);
         Graphics2D graphics2D = (Graphics2D) graph;
         graphics2D.drawImage(this.mesa,0,0,windowWidth,windowHeight,null);
-        playerLogic.drawDecisao(graphics2D);
+        logic.drawDecisao(graphics2D);
         if(player.isWinRodada() || enemy.isWinRodada()){
-            playerLogic.drawGanhador(graphics2D, player.isWinRodada(), false);
+            logic.drawGanhador(graphics2D, player.isWinRodada(), false);
             resetGame();
 
         }else {
-            this.playerLogic.drawPlayers(graphics2D);
-            this.playerLogic.drawButtonTruco(graphics2D);
-            this.playerLogic.drawButtonDecisao(graphics2D);
-            this.playerLogic.drawButtonEnvido(graphics2D);
+            this.logic.drawPlayers(graphics2D);
+            this.logic.drawButtonTruco(graphics2D);
+            this.logic.drawButtonDecisao(graphics2D);
+            this.logic.drawButtonEnvido(graphics2D);
 
         }
         this.pontos.drawPoints(graphics2D);
@@ -96,13 +96,11 @@ public class Game extends JPanel implements Runnable {
     public void update() {
         Random random = new Random();
         int i = random.nextInt(1,4);
-        this.playerLogic.update(this.mouse, i,false);
-        System.out.println(enemy.isChamouTruco());
-
+        this.logic.update(this.mouse, i,false);
     }
 
     private boolean momentEnvido(){
-        return  (!player.isDecisaoUndefined() && enemy.isChamouEnvido()) || (!enemy.isDecisaoUndefined() && player.isChamouEnvido());
+        return  (!player.isDecisaoTrucoUndefined() && enemy.isChamouEnvido()) || (!enemy.isDecisaoTrucoUndefined() && player.isChamouEnvido());
     }
 
     @Override

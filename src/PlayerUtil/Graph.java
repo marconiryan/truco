@@ -1,4 +1,4 @@
-package Graphics;
+package PlayerUtil;
 import Base.Cartas;
 import Base.Player;
 import Main.Mouse;
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class PlayerGraph {
+public class Graph {
 
     Player basePlayer;
     int posCardX, posCardY, width, height;
@@ -21,7 +21,7 @@ public class PlayerGraph {
     private final int  centerWScreen = 400, centerHScreen = 233, offset = 200;
 
 
-    public PlayerGraph(Player player, int posCardX, int posCardY) {
+    public Graph(Player player, int posCardX, int posCardY) {
         this.basePlayer = player;
         this.posCardX = posCardX;
         this.posCardY = posCardY;

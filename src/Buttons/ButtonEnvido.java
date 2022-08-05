@@ -1,5 +1,7 @@
-package Base;
+package Buttons;
 
+import Base.Player;
+import Base.Pontos;
 import Main.Mouse;
 
 import javax.imageio.ImageIO;
@@ -11,7 +13,7 @@ import java.util.Objects;
 public class ButtonEnvido extends Buttons{
     private final BufferedImage envidoButton;
     private BufferedImage nadaButton;
-    private final int xEnvidoButton = 250;
+    private final int xEnvidoButton = 630;
     private final int yEnvidoButton = 650;
     private final int wEnvidoButton = 100;
     private final int hEnvidoButton = 50;

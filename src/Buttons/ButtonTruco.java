@@ -1,5 +1,7 @@
-package Base;
+package Buttons;
 
+import Base.Player;
+import Base.Pontos;
 import Main.Mouse;
 
 import javax.imageio.ImageIO;
@@ -11,7 +13,7 @@ import java.util.Objects;
 public class ButtonTruco extends Buttons{
     private final BufferedImage trucoButton;
     private BufferedImage nadaButton;
-    private final int xTrucoButton = 200;
+    private final int xTrucoButton = 530;
     private final int yTrucoButton = 650;
     private final int wTrucoButton = 100;
     private final int hTrucoButton = 50;

@@ -9,9 +9,7 @@ public class Baralho{
         this.baralho = new LinkedList<>();
         setBaralho();
     }
-    public LinkedList<Cartas> getBaralho() {
-        return baralho;
-    }
+
     private void embaralhar(LinkedList<Cartas> baralho){
         Random random = new Random();
         for(Cartas carta: baralho){

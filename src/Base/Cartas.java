@@ -19,7 +19,7 @@ public record Cartas(int naipe, int numero, int peso) {
 
     }
     public static String getNameSprite(Cartas carta){
-        String var = "/Sprites/"+ String.valueOf(carta.numero);
+        String var = "/Sprites/"+ carta.numero;
         if(carta.naipe == 1)
             var = var.concat("Espada.png");
         else if (carta.naipe == 2)

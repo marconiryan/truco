@@ -8,7 +8,8 @@ public class Player {
     private boolean  winRodada, mao;
     private boolean win1, win2, win3;
     private int pontosPartida = 0;
-    private int decisao = 0;
+    private int decisaoTruco = 0;
+    private int decisaoEnvido = 0;
     private boolean chamouTruco;
     private boolean chamouEnvido;
 
@@ -63,7 +64,8 @@ public class Player {
         this.win1 = false;
         this.win2 = false;
         this.win3 = false;
-        setDecisaoUndefined();
+        setDecisaoTrucoUndefined();
+        setDecisaoEnvidoUndefined();
         this.winRodada = false;
         this.mao = false;
         this.chamouTruco = false;
@@ -74,13 +76,18 @@ public class Player {
         this.winRodada = true;
 
     }
-    public void setDecisao(int decisao){this.decisao = decisao;}
-    public void setDecisaoAccepted(){this.decisao = 1;}
-    public void setDecisaoDenied(){this.decisao = -1;}
-    public void setDecisaoUndefined(){this.decisao = 0;}
-    public boolean isDecisaoAccepted(){return this.decisao == 1;}
-    public boolean isDecisaoDenied(){return this.decisao == -1;}
-    public boolean isDecisaoUndefined(){return this.decisao == 0;}
+    public void setDecisaoTruco(int decisaoTruco){this.decisaoTruco = decisaoTruco;}
+    public void setDecisaoTrucoUndefined(){this.decisaoTruco = 0;}
+    public boolean isDecisaoTrucoAccepted(){return this.decisaoTruco == 1;}
+    public boolean isDecisaoTrucoDenied(){return this.decisaoTruco == -1;}
+    public boolean isDecisaoTrucoUndefined(){return this.decisaoTruco == 0;}
+
+
+    public boolean isDecisaoEnvidoAccepted(){return this.decisaoEnvido == 1;}
+    public boolean isDecisaoEnvidoDenied(){return this.decisaoEnvido == -1;}
+    public boolean isDecisaoEnvidoUndefined(){return this.decisaoEnvido == 0;}
+    public void setDecisaoEnvido(int decisaoEnvido){this.decisaoEnvido = decisaoEnvido;}
+    public void setDecisaoEnvidoUndefined(){this.decisaoEnvido = 0;}
 
 
     public boolean isWin1() {
@@ -120,9 +127,6 @@ public class Player {
         if(!mesmoTipo.isEmpty()){
             int soma = 20;
             List<Cartas> envido = new ArrayList<>(mesmoTipo.stream().filter(cartas -> cartas.numero() < 10).toList());
-            for(Cartas cartas: envido){
-                System.out.println(cartas.numero());
-            }
             if(envido.size() > 2){ // Se for flor
                 Cartas min = envido.get(0);
                 for(Cartas c: envido){

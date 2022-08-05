@@ -1,4 +1,4 @@
-package Base;
+package Buttons;
 
 import Main.Mouse;
 
