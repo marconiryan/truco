@@ -144,6 +144,7 @@ public class Graph {
             if(rangeCard1 && !(yCard1 == centerHScreen)){
 
                 this.yCard1 = centerHScreen;
+
                 if(yCard2 == centerHScreen || yCard3 == centerHScreen){
                     if(yCard3 == yCard2){
                         xCard1 = centerWScreen + 2 * offset;
