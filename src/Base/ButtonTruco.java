@@ -38,9 +38,17 @@ public class ButtonTruco extends Buttons{
             drawButton(graphics2D,trucoButton, xTrucoButton, yTrucoButton, wTrucoButton, hTrucoButton);
         }
     }
+    private void update(){
+        this.pontos.setSequenciaTruco();
+    }
 
     public boolean buttonIsPressed(Mouse mouse) {
-        return buttonIsPressed(mouse,xTrucoButton, xTrucoButton + wTrucoButton, yTrucoButton, yTrucoButton + hTrucoButton );
+        boolean rangeButton = buttonIsPressed(mouse,xTrucoButton, xTrucoButton + wTrucoButton, yTrucoButton, yTrucoButton + hTrucoButton );
+        if(rangeButton){
+            update();
+            return true;
+        }
+        return false;
     }
 }
 

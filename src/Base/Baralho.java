@@ -58,6 +58,42 @@ public class Baralho{
         return mesmoTipo;
     }
 
+    public static LinkedList<Cartas> getMesmoTipo(LinkedList<Cartas> cartas){
+        LinkedList<Cartas> mesmoTipo = new LinkedList<>();
+        for(Cartas carta1: cartas){
+            for(Cartas cartas2 : cartas){
+                if(!carta1.equals(cartas2) && carta1.naipe() == cartas2.naipe()){
+                    mesmoTipo.add(carta1);
+                }
+            }
+        }
+        return mesmoTipo;
+    }
+
+
+
+    private static boolean searchMenor10(LinkedList<Cartas> cartas){
+        for(Cartas carta : cartas){
+            if(carta.numero() < 10)
+                return true;
+        }
+        return false;
+    }
+    public static Cartas getMaior(LinkedList<Cartas> cartas){
+        Cartas cartaMaior = new Cartas(1,0,1);
+        if(searchMenor10(cartas)){
+            for(Cartas carta: cartas){
+                if(carta.numero() > cartaMaior.numero() && carta.numero() < 10){
+                    cartaMaior = carta;
+                }
+            }
+
+        }
+        if(cartaMaior.numero() != 0)
+            return cartaMaior;
+        return null;
+    }
+
     private int setPesoTruco(int naipe, int numero){
         boolean espadao = naipe == 1 && numero == 1;
         boolean bastiao = naipe == 2 && numero == 1;

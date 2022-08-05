@@ -9,6 +9,7 @@ public class Player {
     private int pontosPartida = 0;
     private int decisao= 0 ;
     private boolean chamouTruco;
+    private boolean chamouEnvido;
 
 
 
@@ -20,6 +21,9 @@ public class Player {
 
     public boolean isChamouTruco() {
         return chamouTruco;
+    }
+    public boolean isChamouEnvido() {
+        return chamouEnvido;
     }
 
     public void setChamouTruco(boolean chamouTruco) {
@@ -100,14 +104,32 @@ public class Player {
     public void setCartasPlayer(LinkedList<Cartas> cartasPlayer) {
         this.cartasPlayer = cartasPlayer;
     }
-    public int getEnvido(){
-        int pontos = 0;
 
-        for(Cartas cartas: getCartasPlayer()){
+    public int getEnvido(){
+        LinkedList<Cartas> envido = Baralho.getMesmoTipo(getCartasPlayer());
+        if(envido.isEmpty()){
+            Cartas cartaVar =  Baralho.getMaior(getCartasPlayer());
+            if(cartaVar == null){
+                return 0;
+            }
+            return cartaVar.numero();
+        }
+        if(envido.size() > 2){
+            LinkedList<Cartas> temp = new LinkedList<>();
+            temp.add(Baralho.getMaior(envido));
+            envido.remove(Baralho.getMaior(envido));
+            temp.add(Baralho.getMaior(envido));
+            envido.remove(Baralho.getMaior(envido));
+            envido = temp;
+        }
+
+        int soma = 20;
+        for(Cartas cartas: envido){
             if(cartas.numero() < 10){
-                pontos += cartas.numero();
+                soma += cartas.numero();
             }
         }
-        return pontos;
+        return soma;
     }
+
 }

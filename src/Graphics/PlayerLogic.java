@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerLogic {
@@ -20,6 +21,7 @@ public class PlayerLogic {
     LinkedList<Cartas> first, mid, last;
     ButtonTruco buttonTruco;
     ButtonDecisao buttonDecisao;
+    ButtonEnvido buttonEnvido;
     Mouse mouse;
     Pontos pontos;
 
@@ -33,9 +35,9 @@ public class PlayerLogic {
         this.pontos = pontos;
         this.buttonTruco = new ButtonTruco(mouse, pontos);
         this.buttonDecisao = new ButtonDecisao(this.mouse);
-
-        this.playerGraph = playerGraph; //= new PlayerGraph(this.player,windowWidth,450);
-        this.playerEnemy = playerEnemy; //= new PlayerGraph(this.enemy, windowWidth, 850);
+        this.buttonEnvido = new ButtonEnvido(this.mouse, pontos);
+        this.playerGraph = playerGraph;
+        this.playerEnemy = playerEnemy;
 
     }
 
@@ -73,6 +75,7 @@ public class PlayerLogic {
     }
 
     public void reset(){
+        this.pontos.reset();
         this.enemy.resetPlayer();
         this.player.resetPlayer();
         this.first.clear();
@@ -81,6 +84,9 @@ public class PlayerLogic {
     }
     public void drawButtonTruco(Graphics2D graphics2D){
         this.buttonTruco.drawButton(graphics2D, this.enemy);
+    }
+    public void drawButtonEnvido(Graphics2D graphics2D){
+        this.buttonEnvido.drawButton(graphics2D, this.enemy);
     }
 
 
@@ -117,6 +123,7 @@ public class PlayerLogic {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(player.getEnvido());
 
         while(player.isDecisaoUndefined() && enemy.isChamouTruco()){
             System.out.println(buttonDecisao.isPressed());
@@ -124,6 +131,18 @@ public class PlayerLogic {
         }
         if(enemy.isChamouTruco() && player.isDecisaoDenied()){
             enemy.setWinRodada();
+        }
+
+        //System.out.println(enemy.isDecisaoUndefined());
+        if(buttonTruco.buttonIsPressed(this.mouse)){
+            while(enemy.isDecisaoUndefined()){
+                Random random = new Random();
+                enemy.setDecisao(1);
+                //enemy.setDecisao(random.nextInt(-1,2));
+                }
+        }
+        if(enemy.isDecisaoDenied()){
+            this.player.setWinRodada();
         }
 
         updateJogada(mouse,card,inverse);
