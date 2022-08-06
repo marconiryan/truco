@@ -15,6 +15,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Game extends JPanel implements Runnable {
     private Thread gameThread;
+
+    private final Sound sound = new Sound();
+
     private final Graph playerGraph, playerEnemy;
     private final Player player, enemy;
     private final Baralho baralho;
@@ -67,6 +70,7 @@ public class Game extends JPanel implements Runnable {
 
     public void startGameThread() {
         gameThread = new Thread(this);
+        playsoundLoop(0);
         gameThread.start();
 
     }
@@ -106,6 +110,20 @@ public class Game extends JPanel implements Runnable {
     private boolean momentEnvido(){
         return  (!player.isDecisaoTrucoUndefined() && enemy.isChamouEnvido()) || (!enemy.isDecisaoTrucoUndefined() && player.isChamouEnvido());
     }
+
+    public void playsoundLoop(int i){
+
+        sound.Playfile(i);
+        sound.play();
+        sound.loop();
+
+    }
+
+  /*  public void playSound(int i) {
+        sound.Playfile(i);
+        sound.play();
+    } To-Do
+    // Fazer efeitos ( De cartas)*/
 
     @Override
     public void run() {
