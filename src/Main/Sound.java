@@ -11,11 +11,8 @@ public class Sound {
     URL[] soundURL = new URL[10];
 
     public Sound() {
-        soundURL[0] = this.getClass().getResource("/Sounds/memoirofsummer.wav");
+       soundURL[0] = this.getClass().getResource("/Sounds/memoirofsummer.wav");
         //soundURL[0] = this.getClass().getResource("/Sounds/trucomodao.wav");
-        //soundURL[1] = this.getClass().getResource("/Sounds/chicoteada.wav");
-        //soundURL[2] = this.getClass().getResource("/Sounds/winner.wav");
-        // To-Do
     }
 
     public void Playfile(int i) {

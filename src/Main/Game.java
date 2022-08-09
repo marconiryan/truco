@@ -119,12 +119,6 @@ public class Game extends JPanel implements Runnable {
 
     }
 
-  /*  public void playSound(int i) {
-        sound.Playfile(i);
-        sound.play();
-    } To-Do
-    // Fazer efeitos ( De cartas)*/
-
     @Override
     public void run() {
         double drawInterval = 1000000000 / FPS;
